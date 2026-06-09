@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>For Shreya 💛</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #D4537E;
+  --pink-light: #FBEAF0;
+  --pink-mid: #F4C0D1;
+  --pink-dark: #72243E;
+  --pink-deep: #993556;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --hint: #aaaaaa;
+  --bg: #ffffff;
+  --border: rgba(0,0,0,0.09);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); max-width: 430px; margin: 0 auto; min-height: 100vh; }
+
+/* ── SECTION HEADERS ── */
+.section-top {
+  background: var(--pink-light);
+  padding: 2.2rem 1.5rem 1.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--pink-mid);
+}
+.section-top .emoji { font-size: 38px; margin-bottom: 10px; display: block; }
+.section-top h1 { font-family: 'Lora', serif; font-size: 21px; font-weight: 500; color: var(--pink-dark); margin-bottom: 4px; line-height: 1.35; }
+.section-top p { font-size: 13px; color: var(--pink-deep); opacity: 0.85; line-height: 1.6; }
+
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--pink-light);
+}
+.divider-line { flex: 1; height: 1px; background: var(--pink-mid); }
+.divider-text { font-size: 12px; color: var(--hint); white-space: nowrap; font-style: italic; font-family: 'Lora', serif; }
+
+/* ── COUNTDOWN ── */
+.progress-section { padding: 1.25rem 1.5rem 0.25rem; }
+.progress-row { display: flex; justify-content: space-between; margin-bottom: 7px; }
+.progress-row span { font-size: 12px; color: var(--muted); }
+.progress-row .count { color: var(--pink); font-weight: 500; }
+.bar-bg { height: 5px; background: var(--pink-light); border-radius: 99px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--pink); border-radius: 99px; transition: width 0.5s cubic-bezier(.4,0,.2,1); width: 0%; }
+
+.grid-section { padding: 1rem 1.25rem 0.5rem; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.tile {
+  aspect-ratio: 1; border: 1.5px solid var(--border); border-radius: 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; background: var(--bg); transition: transform 0.12s ease, border-color 0.15s;
+  gap: 3px; user-select: none; position: relative;
+}
+.tile:active { transform: scale(0.91); }
+.tile.opened { background: var(--pink-light); border-color: var(--pink-mid); }
+.tile.today { border: 2px solid var(--pink); }
+.tile.future { opacity: 0.4; cursor: default; }
+.tile .num { font-size: 18px; font-weight: 500; color: var(--text); line-height: 1; }
+.tile.opened .num { color: var(--pink-dark); }
+.tile .icon { font-size: 14px; line-height: 1; }
+.tile .dot { position: absolute; top: 5px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
+
+.hint { text-align: center; padding: 0.75rem 1.5rem 0; font-size: 12px; color: var(--hint); }
+
+/* ── LETTER ── */
+.letter-body { padding: 0 1.25rem 2rem; }
+.letter-intro { font-family: 'Lora', serif; font-size: 14px; color: var(--muted); line-height: 1.75; text-align: center; margin-bottom: 1.5rem; font-style: italic; }
+
+.letter-progress-wrap { margin-bottom: 1.5rem; }
+.letter-prog-label { font-size: 12px; color: var(--muted); margin-bottom: 7px; text-align: center; }
+
+.btn-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
+.reveal-btn {
+  width: 100%; background: var(--bg); border: 1.5px solid var(--pink-mid);
+  border-radius: 16px; padding: 0; cursor: pointer; text-align: left;
+  transition: border-color 0.15s, background 0.15s; overflow: hidden; font-family: 'Inter', sans-serif;
+}
+.reveal-btn:active { transform: scale(0.98); }
+.reveal-btn.unlocked { border-color: var(--pink); background: var(--pink-light); cursor: default; }
+.btn-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+.btn-icon { font-size: 20px; flex-shrink: 0; }
+.btn-label { font-size: 15px; font-weight: 500; color: var(--pink-dark); }
+.btn-arrow { margin-left: auto; font-size: 16px; color: var(--pink-mid); transition: transform 0.3s; }
+.reveal-btn.unlocked .btn-arrow { transform: rotate(90deg); color: var(--pink); }
+.btn-msg {
+  display: none; padding: 12px 16px 16px 48px;
+  font-family: 'Lora', serif; font-size: 14px; line-height: 1.75; color: var(--text);
+  border-top: 1px solid var(--pink-mid);
+  animation: fadein 0.35s ease;
+}
+.reveal-btn.unlocked .btn-msg { display: block; }
+@keyframes fadein { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+.final-card {
+  display: none; background: var(--pink-light); border: 1px solid var(--pink-mid);
+  border-radius: 20px; padding: 1.75rem 1.5rem; text-align: center;
+  animation: fadein 0.5s ease; margin-bottom: 2rem;
+}
+.final-card.show { display: block; }
+.final-emoji { font-size: 32px; margin-bottom: 14px; display: block; }
+.final-msg { font-family: 'Lora', serif; font-size: 16px; line-height: 1.8; color: var(--pink-dark); font-style: italic; }
+.final-from { font-size: 12px; color: var(--hint); margin-top: 14px; }
+
+/* ── OVERLAY (songs) ── */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(75,21,40,0.42); z-index: 200; align-items: flex-end; justify-content: center; }
+.overlay.show { display: flex; }
+.sheet {
+  background: var(--bg); border-radius: 26px 26px 0 0;
+  width: 100%; max-width: 430px;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  animation: slideup 0.28s cubic-bezier(.4,0,.2,1);
+  max-height: 92vh; overflow-y: auto;
+}
+@keyframes slideup { from { transform: translateY(70px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.handle { width: 36px; height: 4px; background: var(--pink-mid); border-radius: 99px; margin: 14px auto 0; }
+.sheet-inner { padding: 16px 1.75rem 1.75rem; }
+.sheet-day-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pink); text-align: center; margin-bottom: 16px; }
+
+.player { background: var(--pink-light); border-radius: 18px; padding: 1.25rem 1.25rem 1.1rem; margin-bottom: 18px; text-align: center; }
+.player-title { font-size: 13px; font-weight: 500; color: var(--pink-dark); margin-bottom: 14px; line-height: 1.4; }
+.player-disc { width: 74px; height: 74px; border-radius: 50%; background: var(--pink-mid); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.player-disc.spinning { animation: spin 3s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.seek-wrap { margin-bottom: 6px; }
+.seek-bar { width: 100%; height: 4px; appearance: none; background: var(--pink-mid); border-radius: 99px; outline: none; cursor: pointer; accent-color: var(--pink); }
+.seek-bar::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--pink); cursor: pointer; }
+.time-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+.controls { display: flex; align-items: center; justify-content: center; gap: 22px; }
+.ctrl-btn { background: none; border: none; cursor: pointer; font-size: 20px; padding: 6px; border-radius: 50%; transition: transform 0.1s; }
+.ctrl-btn:active { transform: scale(0.85); }
+.play-btn { width: 54px; height: 54px; border-radius: 50%; background: var(--pink); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: transform 0.1s; color: white; }
+.play-btn:active { transform: scale(0.9); }
+.chorus-tag { display: inline-block; font-size: 10px; background: var(--pink); color: white; border-radius: 99px; padding: 2px 9px; margin-bottom: 14px; }
+.sheet-msg { font-family: 'Lora', serif; font-size: 15.5px; line-height: 1.78; color: var(--text); text-align: center; margin-bottom: 14px; }
+.sheet-from { font-size: 12px; color: var(--hint); text-align: center; margin-bottom: 18px; }
+.close-btn { display: block; width: 100%; background: var(--pink-light); border: none; color: var(--pink-dark); font-size: 14px; font-family: 'Inter', sans-serif; padding: 13px; border-radius: 14px; cursor: pointer; font-weight: 500; }
+.close-btn:active { opacity: 0.75; }
+.locked-inner { padding: 2rem 1.75rem 1.75rem; text-align: center; }
+.locked-emoji { font-size: 40px; margin-bottom: 14px; display: block; }
+.locked-title { font-family: 'Lora', serif; font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+.locked-msg { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ PART 1: COUNTDOWN ═══════════════ -->
+<div class="section-top">
+  <span class="emoji">💌</span>
+  <h1>Hey Shreya, you've got this</h1>
+  <p>One message + song for every day — from your boyfie</p>
+</div>
+
+<div class="progress-section">
+  <div class="progress-row">
+    <span>your journey</span>
+    <span class="count" id="prog-text">0 of 16 opened</span>
+  </div>
+  <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
+</div>
+
+<div class="grid-section">
+  <div class="grid" id="grid"></div>
+</div>
+<div class="hint" id="hint-text">tap today's day to open your message 🌸</div>
+
+<!-- ═══════════════ DIVIDER ═══════════════ -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-text">and there's something else here for you</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- ═══════════════ PART 2: LETTER ═══════════════ -->
+<div class="section-top" style="border-top: 1px solid var(--pink-mid);">
+  <span class="emoji">🌹</span>
+  <h1>Things I Now Understand</h1>
+  <p>Five things I should have known sooner.<br>Each one is for you, Shreya.</p>
+</div>
+
+<div class="letter-body" style="padding-top: 1.5rem;">
+  <p class="letter-intro">Tap each one when you're ready. There's no rush.</p>
+
+  <div class="letter-progress-wrap">
+    <div class="letter-prog-label" id="letter-prog-label">0 of 5 opened</div>
+    <div class="bar-bg"><div class="bar-fill" id="letter-bar"></div></div>
+  </div>
+
+  <div class="btn-grid">
+    <button class="reveal-btn" id="btn0" onclick="unlockLetter(0)">
+      <div class="btn-header">
+        <span class="btn-icon">🚧</span>
+        <span class="btn-label">My Boundaries</span>
+        <span class="btn-arrow">›</span>
+      </div>
+      <div class="btn-msg">You said no and I kept asking. I told myself it was love. It wasn't. It was pressure. I'm sorry I made you feel like your "no" needed defending. You should never have had to fight for that.</div>
+    </button>
+
+    <button class="reveal-btn" id="btn1" onclick="unlockLetter(1)">
+      <div class="btn-header">
+        <span class="btn-icon">🌧️</span>
+        <span class="btn-label">My Bad Days</span>
+        <span class="btn-arrow">›</span>
+      </div>
+      <div class="btn-msg">When you were hurting, I disappeared. I replied late. I wasn't there the way you needed. You stopped opening up to me and that was my fault, not yours. You deserved someone who showed up.</div>
+    </button>
+
+    <button class="reveal-btn" id="btn2" onclick="unlockLetter(2)">
+      <div class="btn-header">
+        <span class="btn-icon">📖</span>
+        <span class="btn-label">My Stories</span>
+        <span class="btn-arrow">›</span>
+      </div>
+      <div class="btn-msg">You told me things that mattered to you. I forgot them. And every time I forgot, you felt a little more invisible. You deserved to be remembered. Every detail. Every time.</div>
+    </button>
+
+    <button class="reveal-btn" id="btn3" onclick="unlockLetter(3)">
+      <div class="btn-header">
+        <span class="btn-icon">🤝</span>
+        <span class="btn-label">My Effort</span>
+        <span class="btn-arrow">›</span>
+      </div>
+      <div class="btn-msg">You changed your schedule for me. You stayed awake for me. You showed up and I responded with poems and gestures instead of just being consistent. You needed reliability. I gave you romance. I should have given you both.</div>
+    </button>
+
+    <button class="reveal-btn" id="btn4" onclick="unlockLetter(4)">
+      <div class="btn-header">
+        <span class="btn-icon">🌙</span>
+        <span class="btn-label">My Dreams</span>
+        <span class="btn-arrow">›</span>
+      </div>
+      <div class="btn-msg">You were trying to build something. And instead of being your safe place, I became one more thing you had to manage. I should have been your support, not your stress. Your dreams deserved a better version of me.</div>
+    </button>
+  </div>
+
+  <div class="final-card" id="final-card">
+    <span class="final-emoji">💛</span>
+    <div class="final-msg">"I finally see it, Shreya. Not just what I did but how it felt from your side. You weren't asking for too much. You were just asking me to grow up. I'm working on it."</div>
+    <div class="final-from">— your boyfie</div>
+  </div>
+</div>
+
+<!-- ═══════════════ OVERLAY ═══════════════ -->
+<div class="overlay" id="overlay" onclick="handleBgClick(event)">
+  <div class="sheet" id="sheet">
+    <div class="handle"></div>
+    <div id="sheet-inner"></div>
+  </div>
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+/* ── COUNTDOWN DATA ── */
+const TOTAL = 16;
+const C_KEY = 'shreya_v4_opened';
+const S_KEY = 'shreya_v4_start';
+
+const songData = [
+  { title: "Lover — Taylor Swift",                        start: 54 },
+  { title: "Sapphire — Ed Sheeran ft. Arijit Singh",      start: 47 },
+  { title: "Blank Space — Taylor Swift",                   start: 52 },
+  { title: "You Belong With Me — Taylor Swift",            start: 51 },
+  { title: "Enchanted — Taylor Swift",                     start: 62 },
+  { title: "Perfect — Ed Sheeran",                        start: 65 },
+  { title: "All Too Well (10 Min) — Taylor Swift",         start: 75 },
+  { title: "Everything Has Changed — TS ft. Ed Sheeran",  start: 48 },
+  { title: "Thinking Out Loud — Ed Sheeran",               start: 60 },
+  { title: "Wildest Dreams — Taylor Swift",                start: 49 },
+  { title: "Fearless — Taylor Swift",                      start: 55 },
+  { title: "Clean — Taylor Swift",                         start: 70 },
+  { title: "The Joker And The Queen — Ed Sheeran ft. TS", start: 55 },
+  { title: "End Game — Taylor Swift ft. Ed Sheeran",       start: 45 },
+  { title: "Long Live — Taylor Swift",                     start: 60 },
+  { title: "The Best Day — Taylor Swift",                  start: 65 }
+];
+
+const dayMessages = [
+  "The fact that you even showed up today, sat down with your books, and tried? That's already more than enough. I'm so proud of you. Let's do this, one day at a time.",
+  "You know what's funny? You stress about exams like you haven't been killing it all year. I've seen how hard you work. The world is just catching up to what I already know about you.",
+  "Rough day? That's okay. Every big thing has rough days in the middle. The middle is not the end. Take a deep breath, drink some water, and know I'm cheering for you from wherever I am.",
+  "Okay real talk you're smarter than you give yourself credit for. Like actually. The way your brain works is one of my favorite things about you. Trust it a little more today.",
+  "Almost a week in. You haven't given up. You're still going. That's not small that's everything. Seriously, Shreya, you're doing amazing.",
+  "Today's message is simple: eat something good, take one break, and remember that I love you a lot. Exams are temporary. You're forever. Priorities, right?",
+  "One week down! Look at you go. I hope you took a second today to notice how far you've come instead of only thinking about how far you still have to go.",
+  "Halfway there, Shreya. HALFWAY. I know it might not feel like it, but you've already done so much. The version of you on day 1 would be really proud of today's you.",
+  "Some days the studying flows and some days it doesn't. Both are normal. You don't have to be perfect every day you just have to keep going. And you are. That's what matters.",
+  "Today I just want you to know: I think about you and smile. Not because of anything you did or didn't do just because you exist and you're you. That's enough for me. Always.",
+  "Five more days after this one. You can literally count them on one hand. That's so close, Shreya. So close. Don't stop now the finish line is right there.",
+  "You've been carrying so much. The pressure, the syllabus, the stress, all of it. I see it. You don't have to be strong every moment. Some moments just cry it out and then get back up. I'll be here either way.",
+  "Three more days. THREE. You've climbed this whole mountain and now you're almost at the top. Don't look down. Just keep walking. I'm right behind you.",
+  "Two days left. I remember when day 1 felt so far away and now look you're almost there. I'm not even surprised. I always knew you would make it this far.",
+  "Tomorrow is the last one. One more sleep, Shreya. I want you to go to bed tonight knowing that no matter what happens tomorrow, you gave it everything you had. And that's something nobody can ever take from you.",
+  "Last day. Last exam. You made it to the end. Whatever happens today, walk in there knowing I'm proud of you not for your marks, but for who you are. For showing up every single day even when it was hard. I love you. Go get it. 🌟"
+];
+
+let cOpened = (() => { try { return new Set(JSON.parse(localStorage.getItem(C_KEY)||'[]').map(Number)); } catch(e){ return new Set(); } })();
+function saveCOpened() { try { localStorage.setItem(C_KEY, JSON.stringify([...cOpened])); } catch(e){} }
+
+function getTodayIdx() {
+  const now = new Date();
+  let start = localStorage.getItem(S_KEY);
+  if (!start) { start = now.toDateString(); localStorage.setItem(S_KEY, start); }
+  return Math.min(Math.floor((now - new Date(start)) / 86400000), TOTAL - 1);
+}
+
+const todayIdx = getTodayIdx();
+const audio = document.getElementById('audio');
+let isPlaying = false;
+
+function fmt(s) { s = Math.floor(s||0); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+
+function updateUI() {
+  const bar = document.getElementById('seekbar');
+  const cur = document.getElementById('cur');
+  const dur = document.getElementById('dur');
+  const disc = document.getElementById('disc');
+  const btn = document.getElementById('playbtn');
+  if (!bar) return;
+  if (!isNaN(audio.duration)) bar.max = Math.floor(audio.duration);
+  bar.value = Math.floor(audio.currentTime);
+  if (cur) cur.textContent = fmt(audio.currentTime);
+  if (dur) dur.textContent = isNaN(audio.duration) ? '--:--' : fmt(audio.duration);
+  if (disc) disc.className = 'player-disc'+(isPlaying?' spinning':'');
+  if (btn) btn.textContent = isPlaying ? '⏸' : '▶';
+}
+
+audio.addEventListener('timeupdate', updateUI);
+audio.addEventListener('loadedmetadata', updateUI);
+audio.addEventListener('ended', () => { isPlaying = false; updateUI(); });
+
+function togglePlay() {
+  if (audio.paused) { audio.play(); isPlaying = true; }
+  else { audio.pause(); isPlaying = false; }
+  updateUI();
+}
+function seekTo(v) { audio.currentTime = parseFloat(v); }
+function skip(s) { audio.currentTime = Math.max(0, Math.min(audio.duration||0, audio.currentTime+s)); }
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < TOTAL; i++) {
+    const isO = cOpened.has(i), isT = i===todayIdx, isF = i>todayIdx;
+    const tile = document.createElement('div');
+    tile.className = 'tile'+(isO?' opened':'')+(isT?' today':'')+(isF?' future':'');
+    tile.innerHTML = (isT?'<div class="dot"></div>':'')+
+      '<span class="num">'+(i+1)+'</span>'+
+      '<span class="icon">'+(isO?'💛':isF?'🔒':'✉️')+'</span>';
+    tile.onclick = () => isF ? showLocked(i) : openDay(i);
+    grid.appendChild(tile);
+  }
+  const o = cOpened.size;
+  document.getElementById('prog-text').textContent = o+' of 16 opened';
+  document.getElementById('bar').style.width = Math.round(o/TOTAL*100)+'%';
+  document.getElementById('hint-text').textContent =
+    o===TOTAL ? 'all 16 messages opened — you crushed it Shreya 💛' :
+    'day '+(todayIdx+1)+' is ready for you 🌸';
+}
+
+function openDay(i) {
+  cOpened.add(i); saveCOpened(); renderGrid();
+  audio.pause(); isPlaying = false;
+  audio.src = 'songs/day'+(i+1)+'.mp3';
+  const startSec = songData[i].start;
+  audio.addEventListener('loadedmetadata', function onLoad() {
+    audio.currentTime = startSec;
+    audio.play(); isPlaying = true; updateUI();
+    audio.removeEventListener('loadedmetadata', onLoad);
+  });
+  audio.load();
+
+  document.getElementById('sheet-inner').innerHTML =
+    '<div class="sheet-inner">'+
+    '<div class="sheet-day-label">Day '+(i+1)+' of 16</div>'+
+    '<div class="player">'+
+      '<div class="player-title">🎵 '+songData[i].title+'</div>'+
+      '<div class="player-disc" id="disc">🎵</div>'+
+      '<div class="chorus-tag">starts at best part · '+fmt(startSec)+'</div>'+
+      '<div class="seek-wrap"><input type="range" class="seek-bar" id="seekbar" value="0" min="0" max="100" oninput="seekTo(this.value)"></div>'+
+      '<div class="time-row"><span id="cur">'+fmt(startSec)+'</span><span id="dur">--:--</span></div>'+
+      '<div class="controls">'+
+        '<button class="ctrl-btn" onclick="skip(-10)">⏪</button>'+
+        '<button class="play-btn" id="playbtn" onclick="togglePlay()">⏸</button>'+
+        '<button class="ctrl-btn" onclick="skip(10)">⏩</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="sheet-msg">'+dayMessages[i]+'</div>'+
+    '<div class="sheet-from">— your boyfie 💛</div>'+
+    '<button class="close-btn" onclick="closeSheet()">close</button>'+
+    '</div>';
+
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function showLocked(i) {
+  const d = i - todayIdx;
+  document.getElementById('sheet-inner').innerHTML =
+    '<div class="locked-inner">'+
+    '<span class="locked-emoji">🔒</span>'+
+    '<div class="locked-title">Not yet, Shreya!</div>'+
+    '<div class="locked-msg">Day '+(i+1)+' unlocks in '+d+' day'+(d===1?'':'s')+'. Something special is waiting here come back soon 💛</div>'+
+    '<button class="close-btn" onclick="closeSheet()">okay 💛</button>'+
+    '</div>';
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet() {
+  audio.pause(); isPlaying = false;
+  document.getElementById('overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function handleBgClick(e) { if (e.target===document.getElementById('overlay')) closeSheet(); }
+
+/* ── LETTER ── */
+const L_KEY = 'shreya_letter_v1';
+let lOpened = (() => { try { return new Set(JSON.parse(localStorage.getItem(L_KEY)||'[]').map(Number)); } catch(e){ return new Set(); } })();
+function saveLOpened() { try { localStorage.setItem(L_KEY, JSON.stringify([...lOpened])); } catch(e){} }
+
+function unlockLetter(i) {
+  if (lOpened.has(i)) return;
+  lOpened.add(i); saveLOpened();
+  const btn = document.getElementById('btn'+i);
+  btn.classList.add('unlocked');
+  btn.disabled = true;
+  updateLetterProgress();
+}
+
+function updateLetterProgress() {
+  const n = lOpened.size;
+  document.getElementById('letter-prog-label').textContent = n+' of 5 opened';
+  document.getElementById('letter-bar').style.width = (n/5*100)+'%';
+  if (n === 5) {
+    setTimeout(() => {
+      const fc = document.getElementById('final-card');
+      fc.classList.add('show');
+      fc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 600);
+  }
+}
+
+lOpened.forEach(i => {
+  const btn = document.getElementById('btn'+i);
+  if (btn) { btn.classList.add('unlocked'); btn.disabled = true; }
+});
+
+renderGrid();
+updateLetterProgress();
+</script>
+</body>
+</html>
